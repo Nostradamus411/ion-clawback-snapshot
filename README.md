@@ -5,23 +5,23 @@ This repo contains the base state export, derived balances, and a pivoted csv fi
 
 To produce these files yourself for verification the process after cloning and navigating to this repo would be as follows using an Osmosis node[^2]:
 
-###1 - Find the first block after clawback
+### 1 - Find the first block after clawback
 ```
 python3 find_post_clawback_block.py
 ```
 ![an_image](img/find_post_clawback_block.png)
 
-###2 - State Export
+### 2 - State Export
 ```
 osmosisd export --height 2397435 &> state_export_2397435.json
 ```
 ⛔ Note the node needs to be stopped to run this cmd successfully and the output is being redirected to STDERR[^3] and needs to be captured with `&>`.
 
-###3 - Export Derive Balances
+### 3 - Export Derive Balances
 ```
 osmosisd export-derive-balances state_export_2397435.json derived_balances_2397435.json
 ```
-###4 - Python convert to CSV
+### 4 - Python convert to CSV
 *Needs Pandas, hence the virtual environment
 ```
 python3 -m venv .venv
@@ -36,7 +36,9 @@ Figure someone IBCed out several hundred uION to result in the slightly less tha
 ## ⚠ Module Accounts with Ion to exclude from analysis ⚠
 
 Lockup    = osmo1njty28rqtpw6n59sjj4esw76enp4mg6g7cwrhc
+
 Pool #2   = osmo1500hy75krs9e8t50aav6fahk8sxhajn9ctp40qwvvn8tcprkk6wszun4a5
+
 Pool #11  = osmo1zka4v4c04jr74ludyls2lfzfttzx67qzd070xtnfq90yzyacgn9qv6vend
 Pool #14  = osmo1kpf2xfutvfqfum9aj2juvjcjcxzp7k3le389v6ql6lurzcq0hausa6uyx8
 Pool #18  = osmo17ff0mxg5j6xtuh7ma623ejcntuzuvpewu9dyjk00wkadh75au3qs0gp8pv
