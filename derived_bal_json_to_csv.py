@@ -9,6 +9,11 @@ with open("osmosis-1.assetlist.json","r") as file:
     assetlist_json = json.load(file)
     assetlist = assetlist_json['assets']
 
+def reorder_list(items, early):
+    moved = [item for item in early if item in items]
+    remain = [item for item in items if item not in moved]
+    return moved + remain
+
 # Getting dict's for exponents and denom names
 list_len = len(assetlist)
 ibc_list = []
@@ -149,7 +154,19 @@ for account in accounts:
     list_by_addr.append(new_acct_dict)
 
 
+
 df = pd.DataFrame(list_by_addr)
+# rename for sake of ordering by alpha
+df.rename(columns={'staked':'osmo-staked', 'unstaked':'osmo-unstaked'}, inplace=True)
+# column names to a list
+cols = df.columns.tolist()
+# alpha sorted list
+cols = sorted(cols)
+# osmosis native asset columns first
+cols = reorder_list(cols, ['address','osmo-staked','osmo-unstaked','osmo-bal','osmo-bond','osmo-total','ion-bal','ion-bond','ion-total'])
+# rearange dataframe with custom alpha column order
+df = df[cols]
+# replace NaN with zero
 df = df.fillna(0)
 # Find rows without any ion holdings
 no_ion = df[ df['ion-total'] == 0 ].index
