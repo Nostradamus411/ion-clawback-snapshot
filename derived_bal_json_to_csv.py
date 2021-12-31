@@ -173,5 +173,10 @@ no_ion = df[ df['ion-total'] == 0 ].index
 # Drop non-ion holding addresses
 df.drop(no_ion, inplace=True)
 
-# flat_snapshot = df.to_csv('test.csv', float_format='%.9f', index = False)
-flat_snapshot = df.to_csv('ion_clawback_snapshot.csv', float_format='%.9f', index = False)
+#df.to_csv('test.csv', float_format='%.9f', index = False)
+df.to_csv('ion_clawback_snapshot.csv', float_format='%.9f', index = False)
+
+# reduce the dataframe to just address + ion columns
+keep_cols = ['address','ion-bal','ion-bond','ion-total']
+df = df[df.columns.intersection(keep_cols)]
+df.to_json('ion_clawback_snapshot.json', orient='records')
