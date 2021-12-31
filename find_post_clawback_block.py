@@ -30,8 +30,11 @@ bal = 0
 while bal != None:
     bal = get_osmos_bal(height)
     made_action = chain_action(height)
-    if bal is None and made_action is False:
-        print('Post Clawback Block : ' + str(height))
+    if made_action is False:
+        if bal is None:
+            print('Post Clawback Block : ' + str(height))
+        else:
+            print('Not block - ' + str(height))
     else:
-        print('Not block - ' + str(height))
+        print('Action Made at block ' + str(height))
     height += 1
